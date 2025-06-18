@@ -1,0 +1,13 @@
+services:
+  - type: web
+	name: airtable-flask-app
+	env: python
+	buildCommand: pip install -r requirements.txt
+	startCommand: gunicorn app:app
+	envVars:
+	  - key: AIRTABLE_API_KEY
+		value: YOUR_AIRTABLE_API_KEY
+	  - key: AIRTABLE_BASE_ID
+		value: YOUR_BASE_ID
+	  - key: AIRTABLE_TABLE_NAME
+		value: YOUR_TABLE_NAME

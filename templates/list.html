@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Manage Records</title>
+<style>
+body{margin:20px;font-family:sans-serif}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;text-align:left;border:1px solid #ddd}
+button{padding:6px 12px;border:none;border-radius:4px;cursor:pointer}
+.edit{background:#4CAF50;color:white}
+.delete{background:#f44336;color:white}
+@media(max-width:600px){
+  table,thead,tbody,tr,th,td{display:block}
+  tr{margin-bottom:1em}
+  td{position:relative;padding-left:50%}
+  td:before{position:absolute;left:10px;width:45%;font-weight:bold;white-space:nowrap}
+  td:nth-of-type(1):before{content:"Name"}
+  td:nth-of-type(2):before{content:"Email"}
+  td:nth-of-type(3):before{content:"Actions"}
+}
+</style></head>
+<body>
+<h2>Manage Records</h2><a href="{{ url_for('timeline') }}">← Timeline</a>
+<table><thead><tr><th>Name</th><th>Email</th><th>Actions</th></tr></thead>
+<tbody>
+{% for rec in records %}
+<tr>
+  <td>{{ rec.fields.get('Name', '') }}</td>
+  <td>{{ rec.fields.get('Email', '') }}</td>
+  <td>
+	<a href="{{ url_for('edit', record_id=rec.id) }}"><button class="edit">Edit</button></a>
+	<form action="{{ url_for('delete_record', record_id=rec.id) }}" method="post" style="display:inline" onsubmit="return confirm('Delete?');">
+	  <button class="delete" type="submit">Delete</button>
+	</form>
+  </td>
+</tr>
+{% endfor %}
+</tbody></table>
+</body></html>

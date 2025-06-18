@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Edit Entry</title>
+<style>
+body{margin:20px;font-family:sans-serif}
+form{max-width:400px;margin:auto;display:flex;flex-direction:column;gap:12px}
+input{padding:8px;font-size:1em}
+button{padding:10px;font-size:1em;background:#2196F3;color:white;border:none;border-radius:4px;cursor:pointer}
+</style></head>
+<body>
+<h2>Edit Entry</h2>
+<form action="{{ url_for('save', record_id=record.get('id')) }}" method="post">
+<input name="name" placeholder="Name" required value="{{ record.fields.get('Name','') }}"/>
+<input name="email" type="email" placeholder="Email" required value="{{ record.fields.get('Email','') }}"/>
+<button type="submit">Save</button>
+</form>
+<p><a href="{{ url_for('list_records') }}">← Back to list</a></p>
+</body></html>
