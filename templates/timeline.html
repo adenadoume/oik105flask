@@ -1,16 +1,74 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OIK105 ERGASIES</title>
-<style>
-body{margin:0;font-family:sans-serif}
-header{background:black;padding:10px;display:flex;justify-content:center;gap:10px}
-header a{color:white;padding:8px 16px;border:1px solid white;border-radius:4px;text-decoration:none}
-iframe{width:100vw;height:calc(100vh-50px);border:none}
-</style></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OIK105 ERGASIES</title>
+  <style>
+	body { margin: 0; font-family: sans-serif }
+	header {
+	  background: black; padding: 10px;
+	  display: flex; justify-content: center; gap: 10px
+	}
+	header a {
+	  color: white; padding: 8px 16px;
+	  border: 1px solid white; border-radius: 4px;
+	  text-decoration: none
+	}
+	iframe {
+	  width: 100vw;
+	  height: 60vh;
+	  border: none;
+	}
+	.records {
+	  padding: 20px;
+	  background: #f9f9f9;
+	}
+	.record {
+	  background: white;
+	  margin-bottom: 10px;
+	  padding: 10px;
+	  border-radius: 6px;
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	}
+	.record-info {
+	  flex: 1;
+	}
+	.record-buttons form {
+	  display: inline;
+	}
+  </style>
+</head>
 <body>
+
 <header>
-<a href="{{ url_for('list_records') }}">Manage Entries</a>
-<a href="{{ url_for('timeline') }}">Timeline View</a>
+  <a href="{{ url_for('list_records') }}">Manage Entries</a>
+  <a href="{{ url_for('timeline') }}">Timeline View</a>
 </header>
+
+<!-- Airtable Timeline View -->
 <iframe src="https://airtable.com/embed/appLnTAzqItaUEgRr/shrEmeVVJ0vjxjPba" allowfullscreen></iframe>
-</body></html>
+
+<!-- Flask-Powered Entry Controls -->
+<div class="records">
+  <h2>Modify Entries</h2>
+  {% for record in records %}
+	<div class="record">
+	  <div class="record-info">
+		<strong>{{ record.fields.get('Title', 'No Title') }}</strong>
+		<div>{{ record.fields.get('Date', 'No Date') }}</div>
+	  </div>
+	  <div class="record-buttons">
+		<a href="{{ url_for('edit', record_id=record.id) }}">Edit</a>
+		<form method="POST" action="{{ url_for('delete', record_id=record.id) }}">
+		  <button type="submit">Delete</button>
+		</form>
+	  </div>
+	</div>
+  {% endfor %}
+</div>
+
+</body>
+</html>
